@@ -4,8 +4,8 @@ var bodyParser = require('body-parser');
 
 var db = mysql.createConnection({
     host: 'localhost',
-    user: 'jc06_mysql',
-    password: '08520852',
+    user: 'root',
+    password: '',
     database: 'toko'
 })
 
@@ -24,132 +24,84 @@ router.get('/karyawan', (req, res)=>{
     });
 })
 
-router.post('/karyawan', (req, res)=>{
-    var a = new Date()
-    var tahun = a.getFullYear();
-    var namaKu = req.body.nama;
-    var hariKu = req.body.tglLahir.substr(0,2)
-    var bulanKu = req.body.tglLahir.substr(3,2)
-    var tahunKu = req.body.tglLahir.substr(6,4)
-    var zodiakKu = ["Capricorn",
-                        "Aquarius",
-                        "Pisces",
-                        "Aries",
-                        "Taurus",
-                        "Gemini",
-                        "Cancer",
-                        "Leo",
-                        "Virgo",
-                        "Libra",
-                        "Scorpio",
-                        "Sagitarius"];
-    var usiaKu = tahun - tahunKu
-    
-    var zodiakTampung = "";
-    switch(bulanKu)
-    {
-        case 1: {
-                if(hariKu < 20)
-                    zodiakTampung = zodiakKu[0];
-                else
-                    zodiakTampung = zodiakKu[1];
-                }
-                break;
-        case 2: {
-                if(hariKu < 19)
-                    zodiakTampung = zodiakKu[1];
-                else
-                    zodiakTampung = zodiakKu[2];
-                }
-                break;
-        case 3: {
-                if(hariKu < 21)
-                    zodiakTampung = zodiakKu[2];
-                else
-                    zodiakTampung = zodiakKu[3];
-                }
-                break;
-        case 4: {
-                if(hariKu < 20)
-                    zodiakTampung = zodiakKu[3];
-                else
-                    zodiakTampung = zodiakKu[4];
-                }
-                break;
-        case 5: {
-                if(hariKu < 21)
-                    zodiakTampung = zodiakKu[4];
-                else
-                    zodiakTampung = zodiakKu[5];
-                }
-                break;
-        case 6: {
-                if(hariKu < 21)
-                    zodiakTampung = zodiakKu[5];
-                else
-                    zodiakTampung = zodiakKu[6];
-                }
-                break;
-        case 7: {
-                if(hariKu < 23)
-                    zodiakTampung = zodiakKu[6];
-                else
-                    zodiakTampung = zodiakKu[7];
-                }
-                break;
-        case 8: {
-                if(hariKu < 23)
-                    zodiakTampung = zodiakKu[7];
-                else
-                    zodiakTampung = zodiakKu[8];
-                }
-                break;
-        case 9: {
-                if(hariKu < 23)
-                    zodiakTampung = zodiakKu[8];
-                else
-                    zodiakTampung = zodiakKu[9];
-                }
-                break;
-        case 10: {
-                if(hariKu < 23)
-                    zodiakTampung = zodiakKu[9];
-                else
-                    zodiakTampung = zodiakKu[10];
-                }
-                break;
-        case 11: {
-                if(hariKu < 22)
-                    zodiakTampung = zodiakKu[10];
-                else
-                    zodiakTampung = zodiakKu[11];
-                }
-                break;
-        case 12: {
-                if(hariKu < 22)
-                    zodiakTampung = zodiakKu[11];
-                else
-                    zodiakTampung = zodiakKu[0];
-                }
-                break;
+router.post('/karyawan', (req, res) => {
+    var tanggal = new Date();
+    var tahun = tanggal.getFullYear();
+
+    var namaTglLahir = {
+        nama: req.body.nama,
+        tglLahir: req.body.tglLahir
     }
+    var name = namaTglLahir.nama
+    var tanggalKu = namaTglLahir.tglLahir.split("-")
+
+
+    function zodiakFunc(hariKu, bulanKu) {
+
+        if ((bulanKu == 1 && hariKu <= 20) || (bulanKu == 12 && hariKu >= 22)) {
+            var zodiakVar = "Capricorn"
+            return zodiakVar;
+        } else if ((bulanKu == 1 && hariKu >= 21) || (bulanKu == 2 && hariKu <= 18)) {
+            var zodiakVar = "Aquarius"
+            return zodiakVar;
+        } else if ((bulanKu == 2 && hariKu >= 19) || (bulanKu == 3 && hariKu <= 20)) {
+            var zodiakVar = "Pisces"
+            return zodiakVar;
+        } else if ((bulanKu == 3 && hariKu >= 21) || (bulanKu == 4 && hariKu <= 20)) {
+            var zodiakVar = "Aries"
+            return zodiakVar;
+        } else if ((bulanKu == 4 && hariKu >= 21) || (bulanKu == 5 && hariKu <= 20)) {
+            var zodiakVar = "Taurus"
+            return zodiakVar;
+        } else if ((bulanKu == 5 && hariKu >= 21) || (bulanKu == 6 && hariKu <= 20)) {
+            var zodiakVar = "Gemini"
+            return zodiakVar;
+        } else if ((bulanKu == 6 && hariKu >= 22) || (bulanKu == 7 && hariKu <= 22)) {
+            var zodiakVar = "Cancer"
+            return zodiakVar;
+        } else if ((bulanKu == 7 && hariKu >= 23) || (bulanKu == 8 && hariKu <= 23)) {
+            var zodiakVar = "Leo"
+            return zodiakVar;
+        } else if ((bulanKu == 8 && hariKu >= 24) || (bulanKu == 9 && hariKu <= 23)) {
+            var zodiakVar = "Virgo"
+            return zodiakVar;
+        } else if ((bulanKu == 9 && hariKu >= 24) || (bulanKu == 10 && hariKu <= 23)) {
+            var zodiakVar = "Libra"
+            return zodiakVar;
+        } else if ((bulanKu == 10 && hariKu >= 24) || (bulanKu == 11 && hariKu <= 22)) {
+            var zodiakVar = "Scorpio"
+            return zodiakVar;
+        } else if ((bulanKu == 11 && hariKu >= 23) || (bulanKu == 12 && hariKu <= 21)) {
+            var zodiakVar = "Sagittarius"
+            return zodiakVar;
+        }
+    }
+
+    var umur = tahun - tanggalKu[2];
 
     var data = {
-        no: 6,
-        nama: namaKu,
-        hari: hariKu,
-        bulan: bulanKu,
-        tahun: tahunKu,
-        zodiak: zodiakTampung,
-        usia: usiaKu
+        nama: name,
+        hari: tanggalKu[0],
+        bulan: tanggalKu[1],
+        tahun: tanggalKu[2],
+        zodiak: zodiakFunc(tanggalKu[0], tanggalKu[1]),
+        usia: umur
     }
-
-    var sql = 'insert into karyawan set ?';
-    db.query(sql, data, (error, hasil) => {
-        if (error) throw error;
-        console.log(hasil)
-        res.send({status: 'Data berhasil ditambah!'})
+    var masukKan = 'insert into karyawan set ?';
+    db.query(masukKan, data, (err, result) => {
+        if (err) throw err;
+        console.log(data);
+        res.send({
+            status: 'Success',
+            nama: name,
+            hari: tanggalKu[0],
+            bulan: tanggalKu[1],
+            tahun: tanggalKu[2],
+            zodiak: zodiakFunc(tanggalKu[0], tanggalKu[1]),
+            usia: umur
+        })
     });
-})
+});
+
 
 module.exports = router;
